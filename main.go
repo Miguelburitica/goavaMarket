@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/Miguelburitica/goavaMarket/src"
 	"github.com/Miguelburitica/goavaMarket/src/transversal_domain"
@@ -15,7 +16,13 @@ func main() {
 		http.Handle(route.Pattern, transversal_domain.HandlerWrapper(route.MainHandler()))
 	}
 
-	port := "8080"
+	envPort := os.Getenv("PORT")
+
+	if os.Getenv("PORT") == "" {
+		envPort = "8080"
+	}
+
+	port := envPort
 
 	fmt.Printf("*---------------------*" + "\n")
 	fmt.Printf("Server running in %s port\n", port)
