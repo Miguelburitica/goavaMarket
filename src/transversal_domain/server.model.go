@@ -18,6 +18,11 @@ func (route *Route) MainHandler() http.HandlerFunc {
 		fmt.Println("Request received")
 
 		handler := route.HandlerFunctions[r.Method]
+		if (handler == nil) {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+
 		handler(w, r)
 	}
 }
