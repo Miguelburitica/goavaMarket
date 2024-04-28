@@ -11,11 +11,12 @@ func indexRoute() transversal_domain.Route {
 	handler := make(map[string]http.HandlerFunc)
 
 	handler["GET"] = func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Welcome to the Goava Market API"))
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`{"message": "Welcome to the Goava Market API", "code": 200}`))
 	}
 
 	return transversal_domain.Route{
-		Name:             "Index",
+		Name:             "index",
 		AvailableMethods: []string{"GET"},
 		Pattern:          "/",
 		HandlerFunctions: handler,

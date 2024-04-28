@@ -3,8 +3,10 @@ package database
 import (
 	"context"
 	"database/sql"
+	"log"
 
 	"github.com/Miguelburitica/goavaMarket/src/public_domain/models"
+	_ "github.com/tursodatabase/libsql-client-go/libsql"
 )
 
 type PostgresRepository struct {
@@ -15,10 +17,20 @@ func (p *PostgresRepository) Disconnect() error {
 	return p.db.Close()
 }
 
+func NewPostgresRepository(url string) (*PostgresRepository, error) {
+	db, err := sql.Open("libsql", url)
+	if err != nil {
+		return nil, err
+	}
+
+	return &PostgresRepository{db: db}, err
+}
+
 func (p *PostgresRepository) GetUser(ctx context.Context, id string) (models.User, error) {
 	var user models.User
 	err := p.db.QueryRowContext(ctx, "SELECT id, email FROM users WHERE id = $1", id).Scan(&user.ID, &user.Email)
 	if err != nil {
+		log.Printf("Error getting the user: %v", err)
 		return user, err
 	}
 
@@ -70,13 +82,4 @@ func (p *PostgresRepository) DeleteUser(ctx context.Context, id string) error {
 	}
 
 	return nil
-}
-
-func NewPostgresRepository(url string) *PostgresRepository {
-	db, err := sql.Open("postgres", url)
-	if err != nil {
-		panic(err)
-	}
-
-	return &PostgresRepository{db: db}
 }

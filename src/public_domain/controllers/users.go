@@ -18,7 +18,6 @@ func getUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	// validate if the id is empty
 	if id != "" {
-
 		// get the user from the repository
 		user, err := services.GetUser(r.Context(), id)
 
@@ -47,6 +46,8 @@ func getUserHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(response)
 		w.WriteHeader(http.StatusOK)
 	}
+
+	w.WriteHeader(http.StatusBadRequest)
 }
 
 func postUserHandler(w http.ResponseWriter, r *http.Request) {

@@ -9,13 +9,12 @@ import (
 type RepositoryUserActions interface {
 	GetUser(ctx context.Context, id string) (models.User, error)
 	GetUsers(ctx context.Context, props models.GetUsersRequest) ([]models.User, error)
-	CreateUser(ctx context.Context, user models.User) error
-	UpdateUser(ctx context.Context, userInfo models.UserToUpdate) error
-	DeleteUser() error
+	// CreateUser(ctx context.Context, user models.User) error
+	// UpdateUser(ctx context.Context, userInfo models.UserToUpdate) error
+	// DeleteUser() error
 }
 
 type Repository interface {
-	Connect() error
 	Disconnect() error
 	RepositoryUserActions
 }
@@ -34,10 +33,10 @@ func GetUsers(ctx context.Context, props models.GetUsersRequest) ([]models.User,
 	return implementation.GetUsers(ctx, props)
 }
 
-func CreateUser(ctx context.Context, user models.User) error {
-	return implementation.CreateUser(ctx, user)
-}
+// func CreateUser(ctx context.Context, user models.User) error {
+// 	return implementation.CreateUser(ctx, user)
+// }
 
-func UpdateUser(ctx context.Context, user models.UserToUpdate) error {
-	return implementation.UpdateUser(ctx, user)
-}
+// func UpdateUser(ctx context.Context, user models.UserToUpdate) error {
+// 	return implementation.UpdateUser(ctx, user)
+// }
